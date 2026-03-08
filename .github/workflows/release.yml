@@ -18,7 +18,7 @@ jobs:
           - platform: windows-latest
             args: ''
           - platform: macos-latest
-            args: '--target aarch64-apple-darwin'
+            args: ''
 
     runs-on: ${{ matrix.platform }}
 
@@ -32,8 +32,6 @@ jobs:
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: Install Linux deps
         if: matrix.platform == 'ubuntu-22.04'
@@ -63,10 +61,9 @@ jobs:
             | 🪟 Windows | `.msi` (recommended) |
             | 🍎 macOS | `.dmg` |
 
-            ### ⚠️ Windows Security Note
+            ### ⚠️ Windows note
             Click **"More info" → "Run anyway"** to install.
             XPMT is open source: github.com/AquilaWilfred/xpmt
-
           releaseDraft: false
           prerelease:   false
           args:         ${{ matrix.args }}
