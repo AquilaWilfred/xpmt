@@ -38,7 +38,7 @@
   },
   "plugins": {
     "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDU4MTM5MkE5NTI1N0ZFODQKUldTRS9sZFNxWklUV05Wd0pLcFdKRTVtVlp6Y1pDdXNOWDR0YWF3ckVPY0hncEJkd3U0ODJaWVUK",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEM0MDE1NURGMzJFNjMwOTYKUldTV01PWXkzMVVCeEF0d3BWVk1ObjVLNnZWQkRnRWRZOCszQkc5K1dQUndON1JDeGFicDg1Y2IK",
       "endpoints": [
         "https://github.com/AquilaWilfred/xpmt/releases/latest/download/latest.json"
       ],
