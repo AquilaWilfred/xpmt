@@ -73,7 +73,7 @@ export default function App() {
       {showUpdate && (
         <UpdateModal
           onClose={() => setShowUpdate(false)}
-          onUpdate={() => setShowUpdate(false)}
+          
         />
       )}
     </div>
