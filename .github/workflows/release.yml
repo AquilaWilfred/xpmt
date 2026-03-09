@@ -14,11 +14,8 @@ jobs:
       matrix:
         include:
           - platform: ubuntu-22.04
-            args: ''
           - platform: windows-latest
-            args: ''
           - platform: macos-latest
-            args: ''
 
     runs-on: ${{ matrix.platform }}
 
@@ -42,12 +39,18 @@ jobs:
       - name: Install frontend deps
         run: npm install
 
+      - name: Write signing key
+        shell: bash
+        run: |
+          mkdir -p ~/.tauri
+          echo "${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}" > ~/.tauri/xpmt.key
+
       - name: Build & Release
         uses: tauri-apps/tauri-action@v0
         env:
-          GITHUB_TOKEN:                       ${{ secrets.GITHUB_TOKEN }}
-          TAURI_SIGNING_PRIVATE_KEY:          ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: "XPMT2026!"
+          GITHUB_TOKEN:                            ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY_PATH:          /root/.tauri/xpmt.key
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD:      "XPMT2026!"
         with:
           tagName:      ${{ github.ref_name }}
           releaseName:  'XPMT ${{ github.ref_name }}'
@@ -66,4 +69,3 @@ jobs:
             XPMT is open source: github.com/AquilaWilfred/xpmt
           releaseDraft: false
           prerelease:   false
-          args:         ${{ matrix.args }}
