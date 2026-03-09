@@ -14,11 +14,11 @@ jobs:
       matrix:
         include:
           - platform: ubuntu-22.04
-            args: '--bundles deb,rpm,appimage,updater'
+            args: ''
           - platform: windows-latest
-            args: '--bundles msi,nsis,updater'
+            args: ''
           - platform: macos-latest
-            args: '--bundles dmg,updater'
+            args: ''
 
     runs-on: ${{ matrix.platform }}
 
@@ -47,7 +47,7 @@ jobs:
         env:
           GITHUB_TOKEN:                       ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY:          ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: "XPMT2026!"
         with:
           tagName:      ${{ github.ref_name }}
           releaseName:  'XPMT ${{ github.ref_name }}'
