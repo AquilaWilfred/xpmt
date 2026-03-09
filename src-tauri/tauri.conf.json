@@ -1,6 +1,6 @@
 {
   "productName": "xpmt",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "identifier": "com.xcognvis.xpmt",
   "build": {
     "beforeDevCommand": "npm run dev",

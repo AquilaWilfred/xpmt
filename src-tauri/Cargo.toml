@@ -1,6 +1,6 @@
 [package]
 name = "xpmt"
-version = "0.1.0"
+version = "1.0.0"
 description = "XPMT - Project Management Desktop App"
 authors = ["X-Cognivis"]
 edition = "2021"
