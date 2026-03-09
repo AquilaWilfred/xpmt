@@ -39,18 +39,33 @@ jobs:
       - name: Install frontend deps
         run: npm install
 
-      - name: Write signing key
-        shell: bash
+      - name: Setup signing key (Linux/macOS)
+        if: matrix.platform != 'windows-latest'
         run: |
           mkdir -p ~/.tauri
-          echo "${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}" > ~/.tauri/xpmt.key
+          echo "$TAURI_KEY" > ~/.tauri/sign.key
+          echo "TAURI_SIGNING_PRIVATE_KEY_PATH=$HOME/.tauri/sign.key" >> $GITHUB_ENV
+          echo "TAURI_SIGNING_PRIVATE_KEY_PASSWORD=$TAURI_PASS" >> $GITHUB_ENV
+        env:
+          TAURI_KEY:  ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_PASS: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+
+      - name: Setup signing key (Windows)
+        if: matrix.platform == 'windows-latest'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.tauri"
+          $env:TAURI_KEY | Out-File -FilePath "$env:USERPROFILE\.tauri\sign.key" -Encoding utf8 -NoNewline
+          echo "TAURI_SIGNING_PRIVATE_KEY_PATH=$env:USERPROFILE\.tauri\sign.key" >> $env:GITHUB_ENV
+          echo "TAURI_SIGNING_PRIVATE_KEY_PASSWORD=$env:TAURI_PASS" >> $env:GITHUB_ENV
+        env:
+          TAURI_KEY:  ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_PASS: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
 
       - name: Build & Release
         uses: tauri-apps/tauri-action@v0
         env:
-          GITHUB_TOKEN:                            ${{ secrets.GITHUB_TOKEN }}
-          TAURI_SIGNING_PRIVATE_KEY_PATH:          /root/.tauri/xpmt.key
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD:      "XPMT2026!"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName:      ${{ github.ref_name }}
           releaseName:  'XPMT ${{ github.ref_name }}'
